@@ -35,6 +35,13 @@ function addTaskHandler() {
   setEnteredTaskText('');
 }
 
+// +++ Part 3 - Create Deleting Handler
+function deleteTaskHandler(id) {
+  setTasks((currentTasks) => {
+    return currentTasks.filter((task) => task.id !== id);
+  });
+}
+
   return (
   <SafeAreaView style={styles.appContainer}>
     <View style={styles.contentContainer}>
@@ -54,7 +61,13 @@ function addTaskHandler() {
       <View style={styles.listContainer}>
         <FlatList
         data={tasks}
-        renderItem={({ item }) => <TodoItem text={item.text} />}
+        renderItem={({ item }) => (
+        <TodoItem
+        text={item.text}
+        id={item.id}
+        onDelete={deleteTaskHandler}
+        />
+      )}
         keyExtractor={(item) => item.id}
         ListEmptyComponent={<Text style={styles.emptyText}>No tasks yet. Add one!</Text>}
         />
