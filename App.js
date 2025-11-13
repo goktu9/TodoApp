@@ -1,6 +1,6 @@
 // +++ Part 2 - Import Hooks and Components.
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // +++ Part 3 - Importing the TodoItem component.
 import TodoItem from './components/TodoItem';
@@ -33,6 +33,7 @@ function addTaskHandler() {
 
   // Clear the input field
   setEnteredTaskText('');
+  Keyboard.dismiss();
 }
 
 // +++ Part 3 - Create Deleting Handler
@@ -44,8 +45,11 @@ function deleteTaskHandler(id) {
 
   return (
   <SafeAreaView style={styles.appContainer}>
-    <View style={styles.contentContainer}>
-      <Text style={styles.title}>My Todo List</Text>
+    <KeyboardAvoidingView
+        style={styles.contentContainer}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <Text style={styles.title}>My Todo List</Text>
       {/* +++ Part 2 - Adding input JSX */ }
       <View style={styles.inputContainer}>
         <TextInput
@@ -72,21 +76,20 @@ function deleteTaskHandler(id) {
         ListEmptyComponent={<Text style={styles.emptyText}>No tasks yet. Add one!</Text>}
         />
         </View>
-
-      </View>
-      </SafeAreaView>
+        </KeyboardAvoidingView>
+        </SafeAreaView>
       );
     }
 
     const styles= StyleSheet.create({
       appContainer: {
         flex: 1,
-        backgroundColor: '#f0f0f0', // Light gray background
+        backgroundColor: '#f0f2f5',
         },
       contentContainer: {
         flex: 1,
         padding: 20,
-        paddingTop: 60,
+        paddingTop: 40,
         },
         title: {
           fontSize: 24,
